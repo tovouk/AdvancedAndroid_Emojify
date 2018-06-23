@@ -26,6 +26,7 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 
+
 class Emojifier {
 
     private static final String LOG_TAG = Emojifier.class.getSimpleName();
@@ -56,13 +57,19 @@ class Emojifier {
         // If there are no faces detected, show a Toast message
         if(faces.size() == 0){
             Toast.makeText(context, R.string.no_faces_message, Toast.LENGTH_SHORT).show();
+        }else {
+            //checks classifications for each face detected
+            for (int i = 0; i<faces.size();i++){
+                getClassifications(faces.valueAt(i));
+            }
         }
-
-        // TODO (2): Iterate through the faces, calling getClassifications() for each face.
-
         // Release the detector
         detector.release();
     }
 
-    // TODO (1): Create a static method called getClassifications() which logs the probability of each eye being open and that the person is smiling.
+    static void getClassifications(Face face){
+        Log.d(LOG_TAG,"Chances of smiling are " + face.getIsSmilingProbability());
+        Log.d(LOG_TAG,"Chances of the left eye being open are " + face.getIsLeftEyeOpenProbability());
+        Log.d(LOG_TAG,"Chances of the right eye being open are " + face.getIsRightEyeOpenProbability());
+    }
 }
